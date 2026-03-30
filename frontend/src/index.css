@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Auth page animated gradient */
+.auth-gradient {
+  background: linear-gradient(-45deg, #1e3a8a, #2563eb, #7c3aed, #2563eb);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Notification badge pulse */
+.badge-pulse {
+  animation: pulseBadge 2s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+/* Smooth button transitions */
+.btn-transition {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.btn-transition:hover {
+  transform: translateY(-1px);
+}
+
+.btn-transition:active {
+  transform: translateY(0px);
+}
+
+/* Profile progress bar */
+.progress-bar {
+  @apply h-2 rounded-full bg-slate-200 overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full rounded-full transition-all duration-500 ease-out;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+}
+
+/* Stat card hover */
+.stat-card {
+  @apply transition-all duration-200 cursor-pointer;
+}
+
+.stat-card:hover {
+  @apply shadow-glow;
+  transform: translateY(-2px);
+}
+
+/* Toast animation */
+.toast-enter {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
