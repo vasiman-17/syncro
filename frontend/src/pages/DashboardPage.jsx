@@ -2,6 +2,7 @@ import HeroSection from "../components/HeroSection";
 import StatCards from "../components/StatCards";
 import { Link } from "react-router-dom";
 import { Check, X } from "lucide-react";
+import { getBackendFileUrl } from "../lib/api";
 import { useMemo } from "react";
 
 function DashboardPage({
@@ -82,7 +83,7 @@ function DashboardPage({
                   <div className="flex gap-3 text-xs mb-1.5 font-semibold">
                     {application.applicant?.github && <a href={application.applicant.github} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">GitHub</a>}
                     {application.applicant?.linkedin && <a href={application.applicant.linkedin} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">LinkedIn</a>}
-                    {application.applicant?.resumeUrl && <a href={application.applicant.resumeUrl} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">Resume</a>}
+                    {application.applicant?.resumeUrl && <a href={getBackendFileUrl(application.applicant.resumeUrl)} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">Resume</a>}
                   </div>
                   Status:{" "}
                   <span className={`font-semibold ${

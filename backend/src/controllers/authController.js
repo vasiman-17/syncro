@@ -1,8 +1,15 @@
 const bcrypt = require("bcryptjs");
+const cloudinary = require("cloudinary").v2;
 const User = require("../models/User");
 const asyncHandler = require("../utils/asyncHandler");
 const generateToken = require("../utils/generateToken");
 const { OAuth2Client } = require("google-auth-library");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -171,7 +178,23 @@ const uploadResume = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  user.resumeUrl = `/uploads/resumes/${req.file.filename}`;
+  // Upload buffer to Cloudinary
+  const result = await new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "syncro/resumes",
+        resource_type: "raw",
+        public_id: `resume_${user._id}_${Date.now()}`,
+      },
+      (error, uploadResult) => {
+        if (error) reject(error);
+        else resolve(uploadResult);
+      }
+    );
+    stream.end(req.file.buffer);
+  });
+
+  user.resumeUrl = result.secure_url;
   const updated = await user.save();
 
   res.status(200).json({

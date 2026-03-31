@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import HeroSection from "../components/HeroSection";
 import { Upload, CheckCircle2, AlertCircle, FileText, ExternalLink } from "lucide-react";
+import { getBackendFileUrl } from "../lib/api";
 
 function ProfilePage({ user, profileForm, setProfileForm, updateProfile, isSavingProfile, uploadResume, profileComplete, search, onSearchChange, unreadCount }) {
   const fileInputRef = useRef(null);
@@ -165,7 +166,7 @@ function ProfilePage({ user, profileForm, setProfileForm, updateProfile, isSavin
               <p className="truncate text-xs text-emerald-600">{user.resumeUrl}</p>
             </div>
             <a
-              href={`${import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:5000"}${user.resumeUrl}`}
+              href={getBackendFileUrl(user.resumeUrl)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-transition flex items-center gap-1 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700"

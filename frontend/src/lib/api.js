@@ -13,3 +13,11 @@ export const setAuthToken = (token) => {
     delete api.defaults.headers.common.Authorization;
   }
 };
+
+/** Build a full backend URL for uploaded files. Handles both full URLs (Cloudinary) and relative paths (/uploads/...) */
+export const getBackendFileUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  const base = API_BASE_URL.replace(/\/api\/?$/, "") || "http://localhost:5000";
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+};
