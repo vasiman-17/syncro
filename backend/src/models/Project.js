@@ -5,6 +5,7 @@ const projectSchema = new mongoose.Schema(
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
+    requiredMembers: { type: Number, required: true, min: 1, default: 1 },
     requiredSkills: [{ type: String, trim: true }],
     techStack: [{ type: String, trim: true }],
     tags: [{ type: String, trim: true }],

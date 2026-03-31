@@ -4,7 +4,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-
 import { api, setAuthToken } from "./lib/api";
 import SidebarNav from "./components/SidebarNav";
 import TeamCard from "./components/TeamCard";
-import LineChartPlaceholder from "./components/LineChartPlaceholder";
+import ActivityChart from "./components/ActivityChart";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProjectsPage from "./pages/ProjectsPage";
@@ -15,7 +15,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import DiscoverPage from "./pages/DiscoverPage";
 
 const emptyAuth = { name: "", email: "", password: "" };
-const emptyProject = { title: "", description: "", requiredSkills: "" };
+const emptyProject = { title: "", description: "", requiredSkills: "", requiredMembers: 1 };
 const emptyProfile = { name: "", bio: "", skills: "", github: "", linkedin: "", role: "developer" };
 
 function App() {
@@ -575,7 +575,7 @@ function App() {
 
           <section className="space-y-5 lg:col-span-3">
             <TeamCard user={user} />
-            <LineChartPlaceholder />
+            <ActivityChart projects={myProjects} applications={applications} />
           </section>
         </div>
       )}

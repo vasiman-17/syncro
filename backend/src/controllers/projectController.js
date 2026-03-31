@@ -2,16 +2,21 @@ const Project = require("../models/Project");
 const asyncHandler = require("../utils/asyncHandler");
 
 const createProject = asyncHandler(async (req, res) => {
-  const { title, description, requiredSkills, techStack, tags, deadline, difficulty } = req.body;
+  const { title, description, requiredMembers, requiredSkills, techStack, tags, deadline, difficulty } = req.body;
   if (!title || !description) {
     res.status(400);
     throw new Error("Title and description are required");
+  }
+  if (!requiredMembers || isNaN(requiredMembers) || requiredMembers < 1) {
+    res.status(400);
+    throw new Error("A valid number of required members is needed");
   }
 
   const project = await Project.create({
     owner: req.user._id,
     title,
     description,
+    requiredMembers: Number(requiredMembers),
     requiredSkills: Array.isArray(requiredSkills) ? requiredSkills : [],
     techStack: Array.isArray(techStack) ? techStack : [],
     tags: Array.isArray(tags) ? tags : [],
@@ -95,9 +100,12 @@ const updateProject = asyncHandler(async (req, res) => {
     throw new Error("Only owner can update project");
   }
 
-  const { title, description, requiredSkills, techStack, tags, deadline, difficulty } = req.body;
+  const { title, description, requiredMembers, requiredSkills, techStack, tags, deadline, difficulty } = req.body;
   project.title = title?.trim() || project.title;
   project.description = description?.trim() || project.description;
+  if (requiredMembers && !isNaN(requiredMembers) && requiredMembers >= 1) {
+    project.requiredMembers = Number(requiredMembers);
+  }
   project.requiredSkills = Array.isArray(requiredSkills) ? requiredSkills : project.requiredSkills;
   project.techStack = Array.isArray(techStack) ? techStack : project.techStack;
   project.tags = Array.isArray(tags) ? tags : project.tags;

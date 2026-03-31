@@ -101,8 +101,8 @@ const getMyProjectApplications = asyncHandler(async (req, res) => {
   const projectIds = myProjects.map((project) => project._id);
 
   const applications = await Application.find({ project: { $in: projectIds } })
-    .populate("project", "title")
-    .populate("applicant", "name email skills github linkedin")
+    .populate("project", "title requiredMembers")
+    .populate("applicant", "name email skills github linkedin resumeUrl bio")
     .sort({ createdAt: -1 });
 
   res.status(200).json({ success: true, applications });

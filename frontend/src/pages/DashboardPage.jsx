@@ -2,6 +2,7 @@ import HeroSection from "../components/HeroSection";
 import StatCards from "../components/StatCards";
 import { Link } from "react-router-dom";
 import { Check, X } from "lucide-react";
+import { useMemo } from "react";
 
 function DashboardPage({
   user,
@@ -16,6 +17,16 @@ function DashboardPage({
   search,
   onSearchChange,
 }) {
+  const projectAcceptedCounts = useMemo(() => {
+    const counts = {};
+    applications.forEach(app => {
+      if (app.status === "accepted" && app.project) {
+        counts[app.project._id] = (counts[app.project._id] || 0) + 1;
+      }
+    });
+    return counts;
+  }, [applications]);
+
   return (
     <>
       <HeroSection
@@ -55,10 +66,19 @@ function DashboardPage({
           {applications.map((application) => (
             <div key={application._id} className="animate-slide-up flex flex-wrap items-center justify-between rounded-2xl border border-slate-200 p-4 transition-all hover:border-brand-200">
               <div>
-                <p className="font-semibold text-slate-900">
-                  {application.applicant?.name} applied for <span className="text-brand-600">{application.project?.title}</span>
+                <p className="font-semibold text-slate-900 flex flex-wrap items-center gap-2">
+                  <span>{application.applicant?.name} applied for <span className="text-brand-600">{application.project?.title}</span></span>
+                  <span className="text-[10px] bg-brand-50 text-brand-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
+                    Accepted: {projectAcceptedCounts[application.project?._id] || 0} / {application.project?.requiredMembers || 1}
+                  </span>
                 </p>
-                <p className="text-sm text-slate-500">
+                {application.applicant?.bio && <p className="text-xs text-slate-600 mt-1 max-w-lg">{application.applicant.bio}</p>}
+                <div className="mt-2 text-sm text-slate-500">
+                  <div className="flex gap-3 text-xs mb-1.5 font-semibold">
+                    {application.applicant?.github && <a href={application.applicant.github} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">GitHub</a>}
+                    {application.applicant?.linkedin && <a href={application.applicant.linkedin} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">LinkedIn</a>}
+                    {application.applicant?.resumeUrl && <a href={application.applicant.resumeUrl} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">Resume</a>}
+                  </div>
                   Status:{" "}
                   <span className={`font-semibold ${
                     application.status === "accepted" ? "text-emerald-600" :
@@ -67,9 +87,9 @@ function DashboardPage({
                   }`}>
                     {application.status}
                   </span>
-                </p>
+                </div>
               </div>
-              <div className="mt-2 flex gap-2 md:mt-0">
+              <div className="mt-3 flex gap-2 md:mt-0 items-center">
                 {application.status === "pending" ? (
                   <>
                     <button

@@ -64,7 +64,10 @@ function ProjectCard({
         </span>
       </div>
       <p className="mt-2 text-sm text-slate-600 line-clamp-2">{project.description}</p>
-      <p className="mt-2 text-xs text-slate-500">by {project.owner?.name || "Unknown"}</p>
+      <p className="mt-2 text-xs text-slate-500 flex items-center justify-between">
+        <span>by {project.owner?.name || "Unknown"}</span>
+        <span className="font-semibold text-brand-600">Needs {project.requiredMembers || 1} {project.requiredMembers === 1 ? 'member' : 'members'}</span>
+      </p>
       <div className="mt-3 flex flex-wrap gap-1">
         {(project.requiredSkills || []).slice(0, 5).map((skill) => (
           <span key={skill} className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700">

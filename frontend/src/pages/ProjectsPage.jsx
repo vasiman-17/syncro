@@ -50,6 +50,14 @@ function ProjectsPage({
           />
           <input
             className="rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
+            type="number"
+            min="1"
+            placeholder="Number of members needed"
+            value={projectForm.requiredMembers}
+            onChange={(e) => setProjectForm({ ...projectForm, requiredMembers: e.target.value })}
+          />
+          <input
+            className="rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
             placeholder="Required skills (comma separated, e.g. React, Node.js, Python)"
             value={projectForm.requiredSkills}
             onChange={(e) => setProjectForm({ ...projectForm, requiredSkills: e.target.value })}
