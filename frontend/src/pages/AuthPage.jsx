@@ -1,86 +1,41 @@
 import { useState } from "react";
-import { Rocket, Users, FolderKanban, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
 
 function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAuth, handleAuth, handleGoogleAuth }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left Panel — Branding */}
-      <div className="auth-gradient hidden w-1/2 flex-col justify-between p-12 text-white lg:flex">
-        <div>
-          <div className="flex items-center gap-3">
-            <span className="glass-card rounded-xl px-3 py-2 text-2xl font-black">S</span>
-            <span className="text-3xl font-black tracking-tight">Syncro</span>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-100 via-slate-50 to-slate-50 opacity-70"></div>
+      <div className="absolute -top-[30%] -left-[10%] -z-10 h-[70vw] w-[70vw] rounded-full bg-brand-400 opacity-20 mix-blend-multiply blur-[120px]"></div>
+      <div className="absolute -bottom-[30%] -right-[10%] -z-10 h-[70vw] w-[70vw] rounded-full bg-purple-400 opacity-20 mix-blend-multiply blur-[120px]"></div>
+
+      <div className="w-full max-w-[420px] animate-slide-up">
+        {/* Branding header */}
+        <div className="mb-8 flex flex-col items-center justify-center text-center">
+          <div className="flex items-center justify-center gap-3">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-3xl font-black text-white shadow-xl shadow-brand-500/30">
+              S
+            </span>
+            <span className="text-4xl font-black tracking-tight text-slate-900">Syncro</span>
           </div>
-        </div>
-
-        <div className="space-y-8">
-          <h1 className="text-5xl font-black leading-tight tracking-tight">
-            Build together.<br />
-            <span className="text-white/80">Grow faster.</span>
-          </h1>
-          <p className="max-w-md text-lg text-white/70">
-            The developer collaboration platform where ideas turn into real projects and teams form effortlessly.
-          </p>
-
-          <div className="space-y-4">
-            <div className="glass-card flex items-center gap-4 rounded-2xl p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-                <Rocket size={20} />
-              </div>
-              <div>
-                <p className="font-semibold">Launch Projects</p>
-                <p className="text-sm text-white/60">Share your ideas and attract talented collaborators</p>
-              </div>
-            </div>
-            <div className="glass-card flex items-center gap-4 rounded-2xl p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-                <Users size={20} />
-              </div>
-              <div>
-                <p className="font-semibold">Find Teammates</p>
-                <p className="text-sm text-white/60">AI-powered matching based on skills and interests</p>
-              </div>
-            </div>
-            <div className="glass-card flex items-center gap-4 rounded-2xl p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-                <FolderKanban size={20} />
-              </div>
-              <div>
-                <p className="font-semibold">Collaborate & Ship</p>
-                <p className="text-sm text-white/60">Manage applications, teams, and project progress</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <p className="text-sm text-white/40">© 2026 Syncro. Devs don't build alone.</p>
-      </div>
-
-      {/* Right Panel — Auth Form */}
-      <div className="flex w-full flex-col items-center justify-center bg-white px-6 py-12 lg:w-1/2 lg:px-16">
-        {/* Mobile logo */}
-        <div className="mb-8 flex items-center gap-2 lg:hidden">
-          <span className="rounded-lg bg-brand-500 px-2 py-1 text-xl font-black text-white">S</span>
-          <span className="text-2xl font-black text-slate-900">Syncro</span>
-        </div>
-
-        <div className="w-full max-w-md animate-fade-in">
-          <h2 className="text-3xl font-black text-slate-900">
-            {authMode === "signup" ? "Create your account" : "Welcome back"}
+          <h2 className="mt-8 text-2xl font-black text-slate-900">
+            {authMode === "signup" ? "Create an account" : "Welcome back"}
           </h2>
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-sm text-slate-500">
             {authMode === "signup"
-              ? "Join Syncro and start building with the right people."
-              : "Sign in to continue where you left off."}
+              ? "Join the collaboration platform where devs build together."
+              : "Sign in to your account to continue building."}
           </p>
+        </div>
 
-          {/* Google Sign-in button */}
+        {/* Main Card */}
+        <div className="rounded-[2.5rem] border border-white/50 bg-white/70 p-8 shadow-2xl shadow-slate-200/50 backdrop-blur-xl">
           <button
             type="button"
             onClick={handleGoogleAuth}
-            className="btn-transition mt-6 flex w-full items-center justify-center gap-3 rounded-xl border-2 border-slate-200 bg-white px-4 py-3 font-semibold text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+            className="btn-transition flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 font-bold text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
           >
             <svg width="20" height="20" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -91,30 +46,31 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
             Continue with Google
           </button>
 
-          {/* Divider */}
-          <div className="my-6 flex items-center gap-3">
-            <div className="h-px flex-1 bg-slate-200" />
-            <span className="text-sm text-slate-400">or continue with email</span>
-            <div className="h-px flex-1 bg-slate-200" />
+          <div className="relative my-6 flex w-full items-center justify-center">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200"></div>
+            </div>
+            <div className="relative bg-white/0 px-4 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              Or continue with email
+            </div>
           </div>
 
-          {/* Email / Password form */}
           <form className="space-y-4" onSubmit={handleAuth}>
             {authMode === "signup" && (
               <div>
-                <label className="mb-1 block text-sm font-semibold text-slate-700">Full Name</label>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Full Name</label>
                 <input
-                  className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
-                  placeholder="Vaibhav Vasistha"
+                  className="w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
+                  placeholder="John Doe"
                   value={authForm.name}
                   onChange={(e) => setAuthForm({ ...authForm, name: e.target.value })}
                 />
               </div>
             )}
             <div>
-              <label className="mb-1 block text-sm font-semibold text-slate-700">Email</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Email</label>
               <input
-                className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
+                className="w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
                 placeholder="you@example.com"
                 type="email"
                 value={authForm.email}
@@ -122,50 +78,52 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-semibold text-slate-700">Password</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Password</label>
               <div className="relative">
                 <input
-                  className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 px-4 py-3 pr-12 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
-                  placeholder="At least 6 characters"
+                  className="w-full rounded-2xl border-2 border-slate-200 bg-white py-3.5 pl-4 pr-12 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
+                  placeholder="Min 6 characters"
                   type={showPassword ? "text" : "password"}
                   value={authForm.password}
                   onChange={(e) => setAuthForm({ ...authForm, password: e.target.value })}
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
-            <button
-              className="btn-transition flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-3.5 font-semibold text-white shadow-lg shadow-brand-500/25 hover:bg-brand-600 disabled:opacity-60 disabled:hover:transform-none"
-              type="submit"
-              disabled={isSubmittingAuth}
-            >
-              {isSubmittingAuth ? (
-                <span className="animate-pulse-soft">Please wait...</span>
-              ) : (
-                <>
-                  {authMode === "signup" ? "Create Account" : "Sign In"}
-                  <ArrowRight size={18} />
-                </>
-              )}
-            </button>
+            <div className="pt-2">
+              <button
+                className="btn-transition flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-500 px-4 py-4 font-bold text-white shadow-lg shadow-brand-500/30 hover:bg-brand-600 hover:shadow-brand-500/40 disabled:opacity-60 disabled:hover:transform-none"
+                type="submit"
+                disabled={isSubmittingAuth}
+              >
+                {isSubmittingAuth ? (
+                  <span className="animate-pulse-soft">Authenticating...</span>
+                ) : (
+                  <>
+                    {authMode === "signup" ? "Create Account" : "Sign In to Syncro"}
+                    <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
+            </div>
           </form>
-
-          <p className="mt-6 text-center text-sm text-slate-500">
-            {authMode === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
-            <button
-              className="font-semibold text-brand-600 hover:text-brand-700"
-              onClick={() => setAuthMode(authMode === "signup" ? "login" : "signup")}
-            >
-              {authMode === "signup" ? "Sign in" : "Create one"}
-            </button>
-          </p>
         </div>
+
+        <p className="mt-8 text-center text-sm font-medium text-slate-500">
+          {authMode === "signup" ? "Already have an account?" : "New to Syncro?"}{" "}
+          <button
+            className="font-bold text-brand-600 hover:text-brand-700"
+            onClick={() => setAuthMode(authMode === "signup" ? "login" : "signup")}
+          >
+            {authMode === "signup" ? "Sign in instead" : "Create an account"}
+          </button>
+        </p>
       </div>
     </div>
   );

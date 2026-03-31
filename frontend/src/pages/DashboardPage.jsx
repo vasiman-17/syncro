@@ -73,7 +73,12 @@ function DashboardPage({
                   </span>
                 </p>
                 {application.applicant?.bio && <p className="text-xs text-slate-600 mt-1 max-w-lg">{application.applicant.bio}</p>}
-                <div className="mt-2 text-sm text-slate-500">
+                {application.message && (
+                  <div className="mt-2 text-sm text-slate-700 bg-slate-50 border-l-4 border-brand-500 rounded-r-xl p-3 max-w-xl italic">
+                    "{application.message}"
+                  </div>
+                )}
+                <div className="mt-3 text-sm text-slate-500">
                   <div className="flex gap-3 text-xs mb-1.5 font-semibold">
                     {application.applicant?.github && <a href={application.applicant.github} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">GitHub</a>}
                     {application.applicant?.linkedin && <a href={application.applicant.linkedin} target="_blank" rel="noreferrer" className="text-brand-600 hover:underline">LinkedIn</a>}

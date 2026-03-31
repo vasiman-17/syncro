@@ -14,10 +14,10 @@ function HeroSection({
   return (
     <section className="animate-fade-in rounded-3xl bg-white p-6 shadow-soft">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="relative w-full max-w-sm">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+        <div className="relative w-full flex-1 md:max-w-md">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-400 group-focus-within:text-brand-600 transition-colors" />
           <input
-            className="w-full rounded-full border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-4 text-sm outline-none transition-all focus:border-brand-500 focus:bg-white focus:shadow-glow"
+            className="w-full rounded-2xl border-2 border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:bg-white focus:shadow-glow"
             placeholder="Search projects, skills, people..."
             value={searchValue}
             onChange={(event) => onSearchChange?.(event.target.value)}
