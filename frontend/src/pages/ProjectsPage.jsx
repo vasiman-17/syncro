@@ -62,6 +62,15 @@ function ProjectsPage({
             value={projectForm.requiredSkills}
             onChange={(e) => setProjectForm({ ...projectForm, requiredSkills: e.target.value })}
           />
+          <select
+            className="rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white text-slate-700"
+            value={projectForm.difficulty}
+            onChange={(e) => setProjectForm({ ...projectForm, difficulty: e.target.value })}
+          >
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
           <button
             className="btn-transition flex w-fit items-center gap-2 rounded-full bg-brand-500 px-6 py-3 font-semibold text-white shadow-lg shadow-brand-500/25 hover:bg-brand-600 disabled:opacity-60"
             type="submit"

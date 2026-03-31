@@ -5,12 +5,12 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-100 via-brand-50 to-white"></div>
-      <div className="absolute -top-[20%] -left-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-brand-400 opacity-30 mix-blend-multiply blur-[100px]"></div>
-      <div className="absolute -bottom-[20%] -right-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-purple-400 opacity-30 mix-blend-multiply blur-[100px]"></div>
-      <div className="absolute top-[20%] right-[10%] -z-10 h-[40vw] w-[40vw] animate-pulse-soft rounded-full bg-emerald-300 opacity-20 mix-blend-multiply blur-[100px]"></div>
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950"></div>
+      <div className="absolute -top-[20%] -left-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-brand-600 opacity-20 mix-blend-screen blur-[120px]"></div>
+      <div className="absolute -bottom-[20%] -right-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-purple-600 opacity-20 mix-blend-screen blur-[120px]"></div>
+      <div className="absolute top-[20%] right-[10%] -z-10 h-[40vw] w-[40vw] animate-pulse-soft rounded-full bg-brand-400 opacity-10 mix-blend-screen blur-[100px]"></div>
 
       <div className="w-full max-w-[420px] animate-slide-up">
         {/* Branding header */}
@@ -19,12 +19,12 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
             <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-3xl font-black text-white shadow-xl shadow-brand-500/30">
               S
             </span>
-            <span className="text-4xl font-black tracking-tight text-slate-900">Syncro</span>
+            <span className="text-4xl font-black tracking-tight text-white/95">Syncro</span>
           </div>
-          <h2 className="mt-8 text-2xl font-black text-slate-900">
+          <h2 className="mt-8 text-2xl font-black text-white">
             {authMode === "signup" ? "Create an account" : "Welcome back"}
           </h2>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-slate-400">
             {authMode === "signup"
               ? "Join the collaboration platform where devs build together."
               : "Sign in to your account to continue building."}
@@ -116,10 +116,10 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
           </form>
         </div>
 
-        <p className="mt-8 text-center text-sm font-medium text-slate-500">
+        <p className="mt-8 text-center text-sm font-medium text-slate-400">
           {authMode === "signup" ? "Already have an account?" : "New to Syncro?"}{" "}
           <button
-            className="font-bold text-brand-600 hover:text-brand-700"
+            className="font-bold text-brand-400 hover:text-brand-300 hover:underline transition-colors"
             onClick={() => setAuthMode(authMode === "signup" ? "login" : "signup")}
           >
             {authMode === "signup" ? "Sign in instead" : "Create an account"}

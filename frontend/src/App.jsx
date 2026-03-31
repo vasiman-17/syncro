@@ -15,7 +15,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import DiscoverPage from "./pages/DiscoverPage";
 
 const emptyAuth = { name: "", email: "", password: "" };
-const emptyProject = { title: "", description: "", requiredSkills: "", requiredMembers: 1 };
+const emptyProject = { title: "", description: "", requiredSkills: "", requiredMembers: 1, difficulty: "beginner" };
 const emptyProfile = { name: "", bio: "", skills: "", github: "", linkedin: "", role: "developer" };
 
 function App() {
