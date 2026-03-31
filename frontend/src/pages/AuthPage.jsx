@@ -5,11 +5,12 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-50 py-12 px-4 sm:px-6 lg:px-8">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-100 via-slate-50 to-slate-50 opacity-70"></div>
-      <div className="absolute -top-[30%] -left-[10%] -z-10 h-[70vw] w-[70vw] rounded-full bg-brand-400 opacity-20 mix-blend-multiply blur-[120px]"></div>
-      <div className="absolute -bottom-[30%] -right-[10%] -z-10 h-[70vw] w-[70vw] rounded-full bg-purple-400 opacity-20 mix-blend-multiply blur-[120px]"></div>
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-100 via-brand-50 to-white"></div>
+      <div className="absolute -top-[20%] -left-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-brand-400 opacity-30 mix-blend-multiply blur-[100px]"></div>
+      <div className="absolute -bottom-[20%] -right-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-purple-400 opacity-30 mix-blend-multiply blur-[100px]"></div>
+      <div className="absolute top-[20%] right-[10%] -z-10 h-[40vw] w-[40vw] animate-pulse-soft rounded-full bg-emerald-300 opacity-20 mix-blend-multiply blur-[100px]"></div>
 
       <div className="w-full max-w-[420px] animate-slide-up">
         {/* Branding header */}
@@ -61,7 +62,7 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
                 <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Full Name</label>
                 <input
                   className="w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
-                  placeholder="John Doe"
+                  placeholder="Vaibhav Vasistha"
                   value={authForm.name}
                   onChange={(e) => setAuthForm({ ...authForm, name: e.target.value })}
                 />
