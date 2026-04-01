@@ -79,6 +79,32 @@ function App() {
     return notifications.filter((n) => !n.readAt).length;
   }, [notifications]);
 
+  const peopleSearchResults = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return [];
+    const peopleMap = new Map();
+    teammateSuggestions.forEach((person) => {
+      if (person?._id) peopleMap.set(String(person._id), person);
+    });
+    projects.forEach((project) => {
+      const owner = project.owner;
+      if (owner?._id && !peopleMap.has(String(owner._id))) peopleMap.set(String(owner._id), owner);
+    });
+    applications.forEach((app) => {
+      const applicant = app.applicant;
+      if (applicant?._id && !peopleMap.has(String(applicant._id))) peopleMap.set(String(applicant._id), applicant);
+    });
+
+    return Array.from(peopleMap.values())
+      .filter((person) => {
+        const name = String(person?.name || "").toLowerCase();
+        const email = String(person?.email || "").toLowerCase();
+        const skills = Array.isArray(person?.skills) ? person.skills.join(" ").toLowerCase() : "";
+        return name.includes(query) || email.includes(query) || skills.includes(query);
+      })
+      .slice(0, 8);
+  }, [search, teammateSuggestions, projects, applications]);
+
   useEffect(() => {
     setAuthToken(token);
     if (token) {
@@ -324,7 +350,6 @@ function App() {
 
   const logout = () => {
     setToken("");
-    setStatusMessage("Logged out.");
     navigate("/auth");
   };
 
@@ -382,6 +407,17 @@ function App() {
       await fetchNotifications();
     } catch (error) {
       setStatusMessage(error?.response?.data?.message || "Could not update notification.");
+    }
+  };
+
+  const markAllNotificationsRead = async () => {
+    const unreadIds = notifications.filter((n) => !n.readAt).map((n) => n._id);
+    if (unreadIds.length === 0) return;
+    try {
+      await Promise.all(unreadIds.map((id) => api.patch(`/notifications/${id}/read`)));
+      await fetchNotifications();
+    } catch (error) {
+      setStatusMessage(error?.response?.data?.message || "Could not mark all notifications as read.");
     }
   };
 
@@ -524,6 +560,8 @@ function App() {
                     profileComplete={profileComplete}
                     applyingTo={applyingTo}
                     onProfileClick={handleProfileClick}
+                    peopleSearchResults={peopleSearchResults}
+                    onOpenDiscover={() => navigate("/discover")}
                   />
                 }
               />
@@ -551,6 +589,7 @@ function App() {
                     user={user}
                     notifications={notifications}
                     markNotificationRead={markNotificationRead}
+                    markAllNotificationsRead={markAllNotificationsRead}
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}

@@ -1,13 +1,28 @@
 import HeroSection from "../components/HeroSection";
 import { Bell, Check, Clock } from "lucide-react";
+import { useEffect } from "react";
 
-function NotificationsPage({ user, notifications, markNotificationRead, search, onSearchChange, unreadCount }) {
+function NotificationsPage({ user, notifications, markNotificationRead, markAllNotificationsRead, search, onSearchChange, unreadCount, onProfileClick }) {
   const unread = notifications.filter((n) => !n.readAt);
   const read = notifications.filter((n) => n.readAt);
 
+  useEffect(() => {
+    if (unread.length > 0) {
+      markAllNotificationsRead?.();
+    }
+  }, [unread.length, markAllNotificationsRead]);
+
   return (
     <>
-      <HeroSection user={user} title="Notifications" subtitle="Track application updates and team activity." searchValue={search} onSearchChange={onSearchChange} unreadCount={unreadCount} />
+      <HeroSection
+        user={user}
+        title="Notifications"
+        subtitle="Track application updates and team activity."
+        searchValue={search}
+        onSearchChange={onSearchChange}
+        unreadCount={unreadCount}
+        onProfileClick={onProfileClick}
+      />
 
       {/* Unread */}
       <section className="rounded-3xl bg-white p-6 shadow-soft">
