@@ -245,60 +245,23 @@ function App() {
     }
   };
 
-  const handleGoogleAuth = useCallback(async () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim();
-    if (!clientId) {
-      setStatusMessage("Google Sign-In is not configured yet. Please use email/password.");
-      return;
-    }
+  const handleGoogleAuth = async (response) => {
     try {
-      // Load Google Identity Services
-      const google = window.google;
-      if (!google?.accounts?.id) {
-        setStatusMessage("Google Sign-In script not loaded. Please try again.");
-        return;
-      }
-      google.accounts.id.initialize({
-        client_id: clientId,
-        callback: async (response) => {
-          try {
-            setIsSubmittingAuth(true);
-            const { data } = await api.post("/auth/google", { credential: response.credential });
-            setToken(data.token);
-            setUser(data.user);
-            setAuthForm(emptyAuth);
-            setStatusMessage(`Welcome ${data.user.name}!`);
-            await bootstrapDashboard();
-            await Promise.all([fetchNotifications(), fetchBookmarks(), fetchSuggestions()]);
-            navigate("/dashboard");
-          } catch (error) {
-            setStatusMessage(error?.response?.data?.message || "Google authentication failed.");
-          } finally {
-            setIsSubmittingAuth(false);
-          }
-        },
-      });
-      google.accounts.id.prompt((notification) => {
-        if (notification?.isNotDisplayed?.()) {
-          const reason = notification.getNotDisplayedReason?.();
-          if (reason === "invalid_client") {
-            setStatusMessage(
-              "Google OAuth invalid_client: use a valid Web Client ID and add this origin in Google Cloud OAuth settings."
-            );
-            return;
-          }
-          setStatusMessage(`Google Sign-In unavailable (${reason || "unknown reason"}).`);
-        } else if (notification?.isSkippedMoment?.()) {
-          const reason = notification.getSkippedReason?.();
-          if (reason && reason !== "auto_cancel") {
-            setStatusMessage(`Google Sign-In skipped (${reason}). Try again.`);
-          }
-        }
-      });
+      setIsSubmittingAuth(true);
+      const { data } = await api.post("/auth/google", { credential: response.credential });
+      setToken(data.token);
+      setUser(data.user);
+      setAuthForm(emptyAuth);
+      setStatusMessage(`Welcome ${data.user.name}!`);
+      await bootstrapDashboard();
+      await Promise.all([fetchNotifications(), fetchBookmarks(), fetchSuggestions()]);
+      navigate("/dashboard");
     } catch (error) {
-      setStatusMessage("Google Sign-In failed. Please try email/password.");
+      setStatusMessage(error?.response?.data?.message || "Google authentication failed.");
+    } finally {
+      setIsSubmittingAuth(false);
     }
-  }, []);
+  };
 
   const createProject = async (event) => {
     event.preventDefault();
