@@ -38,15 +38,9 @@ function HeroSection({
             )}
           </button>
           <div
-            className="btn-transition flex max-w-full cursor-pointer items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 hover:border-brand-200 hover:bg-brand-50 md:max-w-[280px]"
-            onClick={() => {
-              if (onProfileClick) {
-                onProfileClick();
-                return;
-              }
-              navigate("/profile");
-            }}
-            title="View profile"
+            className="flex max-w-full items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 md:max-w-[280px]"
+            onClick={() => onProfileClick?.()}
+            title="User profile summary"
           >
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-purple-600 text-center text-xs font-bold text-white">
               {(user?.name || "U").slice(0, 1).toUpperCase()}

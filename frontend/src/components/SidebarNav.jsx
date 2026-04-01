@@ -46,7 +46,7 @@ function SidebarNav({ statusMessage, unreadCount = 0 }) {
 
       <div className="mt-8 rounded-2xl border border-slate-100 bg-gradient-to-br from-slate-50 to-brand-50/30 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Live status</p>
-        <p className="mt-2 text-sm text-slate-700">{statusMessage}</p>
+        <p className="mt-2 text-sm text-slate-700">{statusMessage || "All updates synced. No pending actions."}</p>
       </div>
     </aside>
   );

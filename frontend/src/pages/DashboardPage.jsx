@@ -52,12 +52,12 @@ function DashboardPage({
           <p className="mt-1 text-2xl font-black text-slate-900">{teammateSuggestions.length}</p>
           <p className="mt-3 text-sm font-semibold text-brand-600">Explore discover →</p>
         </Link>
-        <Link to="/discover" className="stat-card block rounded-2xl bg-white p-4 shadow-soft no-underline">
+        <Link to="/projects?scope=all" className="stat-card block rounded-2xl bg-white p-4 shadow-soft no-underline">
           <p className="text-xs uppercase text-slate-500">Project suggestions</p>
           <p className="mt-1 text-2xl font-black text-slate-900">{projectSuggestions.length}</p>
           <p className="mt-3 text-sm font-semibold text-brand-600">View project matches →</p>
         </Link>
-        <Link to="/discover" className="stat-card block rounded-2xl bg-white p-4 shadow-soft no-underline">
+        <Link to="/projects?scope=bookmarked" className="stat-card block rounded-2xl bg-white p-4 shadow-soft no-underline">
           <p className="text-xs uppercase text-slate-500">Bookmarked projects</p>
           <p className="mt-1 text-2xl font-black text-slate-900">{bookmarks.length}</p>
           <p className="mt-3 text-sm font-semibold text-brand-600">Open bookmarks →</p>

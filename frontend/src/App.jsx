@@ -46,13 +46,6 @@ function App() {
   const [applyingTo, setApplyingTo] = useState(null);
 
   const isAuthenticated = useMemo(() => Boolean(token), [token]);
-  const isGuestMode = useMemo(() => {
-    const role = String(user?.role || "").toLowerCase();
-    const name = String(user?.name || "").toLowerCase();
-    const email = String(user?.email || "").toLowerCase();
-    return role === "guest" || name.includes("guest") || email.includes("guest");
-  }, [user]);
-
   // Compute set of project IDs user has applied to
   const appliedProjectIds = useMemo(() => {
     return new Set(appliedByMe.map((app) => String(app.project?._id || app.project)));
@@ -78,6 +71,15 @@ function App() {
   const unreadCount = useMemo(() => {
     return notifications.filter((n) => !n.readAt).length;
   }, [notifications]);
+
+  const liveStatusMessage = useMemo(() => {
+    if (!token) return "Please sign in to view live updates.";
+    if (applyingTo) return "Submitting your application...";
+    if (unreadCount > 0) return `${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}.`;
+    const pendingApplications = applications.filter((a) => a.status === "pending").length;
+    if (pendingApplications > 0) return `${pendingApplications} application${pendingApplications > 1 ? "s" : ""} pending review.`;
+    return "All updates synced. No pending actions.";
+  }, [token, applyingTo, unreadCount, applications]);
 
   const peopleSearchResults = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -369,16 +371,6 @@ function App() {
     navigate("/auth");
   };
 
-  const handleProfileClick = useCallback(() => {
-    if (isGuestMode) {
-      setToken("");
-      setStatusMessage("Please login to continue.");
-      navigate("/auth");
-      return;
-    }
-    navigate("/profile");
-  }, [isGuestMode, navigate]);
-
   const updateProjectStatus = async (projectId, status) => {
     try {
       await api.patch(`/projects/${projectId}/status`, { status });
@@ -518,7 +510,7 @@ function App() {
       ) : (
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-5 lg:grid-cols-12">
           <div className="lg:col-span-2">
-            <SidebarNav statusMessage={statusMessage} unreadCount={unreadCount} />
+            <SidebarNav statusMessage={liveStatusMessage} unreadCount={unreadCount} />
             <button
               className="btn-transition mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-soft hover:bg-red-50 hover:text-red-600"
               onClick={logout}
@@ -546,7 +538,6 @@ function App() {
                     unreadCount={unreadCount}
                     search={search}
                     onSearchChange={handleGlobalSearch}
-                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -575,7 +566,6 @@ function App() {
                     bookmarkedProjectIds={bookmarkedProjectIds}
                     profileComplete={profileComplete}
                     applyingTo={applyingTo}
-                    onProfileClick={handleProfileClick}
                     peopleSearchResults={peopleSearchResults}
                     onOpenDiscover={() => navigate("/discover")}
                   />
@@ -594,7 +584,6 @@ function App() {
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}
-                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -609,7 +598,6 @@ function App() {
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}
-                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -624,7 +612,6 @@ function App() {
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}
-                    onProfileClick={handleProfileClick}
                   />
                 }
               />

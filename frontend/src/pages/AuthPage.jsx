@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Zap, Users, TrendingUp } from "lucide-react";
 
 function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAuth, handleAuth, handleGoogleAuth }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -7,27 +7,32 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   return (
     <div className="min-h-screen bg-white">
       <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
-        <section className="hidden lg:flex lg:flex-col lg:justify-between bg-[#5B4FE9] p-14 text-white">
-          <div>
-            <div className="flex items-center gap-4">
+        <section className="relative hidden overflow-hidden lg:flex lg:flex-col lg:justify-between bg-[linear-gradient(160deg,#5B4FE9_0%,#4A63F6_45%,#3D57E8_100%)] p-14 text-white">
+          <div className="pointer-events-none absolute -right-20 -top-16 h-72 w-72 rounded-full bg-white/20 blur-3xl"></div>
+          <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-indigo-900/30 blur-3xl"></div>
+          <div className="relative">
+            <div className="flex items-center gap-4 animate-fade-in">
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-xl font-black text-[#5B4FE9]">S</span>
               <span className="text-[40px] font-extrabold tracking-tight leading-none">Syncro</span>
             </div>
-            <h1 className="mt-16 max-w-xl text-[32px] font-extrabold leading-tight">
+            <h1 className="mt-16 max-w-xl text-[36px] font-extrabold leading-tight animate-slide-up">
               Build great products with the right people.
             </h1>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 animate-fade-in">
               Syncro helps you find teammates, launch projects faster, and manage applications in one clean workspace.
             </p>
             <div className="mt-10 grid max-w-lg gap-3">
-              <div className="rounded-xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95">
-                Post projects and define exactly who you need.
+              <div className="flex items-start gap-3 rounded-2xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95 backdrop-blur-md transition-all hover:bg-white/20">
+                <span className="mt-0.5 rounded-lg bg-white/25 p-1.5"><Zap size={14} /></span>
+                <span>Post projects and define exactly who you need.</span>
               </div>
-              <div className="rounded-xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95">
-                Discover relevant developers with smart filters.
+              <div className="flex items-start gap-3 rounded-2xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95 backdrop-blur-md transition-all hover:bg-white/20">
+                <span className="mt-0.5 rounded-lg bg-white/25 p-1.5"><Users size={14} /></span>
+                <span>Discover relevant developers with smart filters.</span>
               </div>
-              <div className="rounded-xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95">
-                Track applications and decisions in real time.
+              <div className="flex items-start gap-3 rounded-2xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95 backdrop-blur-md transition-all hover:bg-white/20">
+                <span className="mt-0.5 rounded-lg bg-white/25 p-1.5"><TrendingUp size={14} /></span>
+                <span>Track applications and decisions in real time.</span>
               </div>
             </div>
             <div className="mt-8 flex max-w-xl flex-wrap gap-2">
@@ -37,8 +42,12 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
                 </span>
               ))}
             </div>
+            <div className="mt-10 max-w-xl rounded-2xl border border-white/25 bg-white/12 px-4 py-3 backdrop-blur-md">
+              <p className="text-xs uppercase tracking-wide text-white/70">Used by teams</p>
+              <p className="mt-1 text-sm font-semibold text-white">Trusted by developers shipping real products.</p>
+            </div>
           </div>
-          <p className="text-sm text-white/80">Trusted by builders worldwide</p>
+          <p className="relative text-sm text-white/80">Trusted by builders worldwide</p>
         </section>
 
         <section className="flex items-center justify-center px-5 py-10 sm:px-8">
