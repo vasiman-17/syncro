@@ -1,19 +1,54 @@
 import HeroSection from "../components/HeroSection";
 import { Users, FolderKanban, Bookmark, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
 
-function DiscoverPage({ user, teammateSuggestions, projectSuggestions, bookmarks, search, onSearchChange, unreadCount }) {
+function DiscoverPage({ user, teammateSuggestions, projectSuggestions, bookmarks, search, onSearchChange, unreadCount, onProfileClick }) {
+  const [skillFilter, setSkillFilter] = useState("");
+  const [projectDifficultyFilter, setProjectDifficultyFilter] = useState("all");
+
+  const filteredTeammates = useMemo(() => {
+    const query = skillFilter.trim().toLowerCase();
+    if (!query) return teammateSuggestions;
+    return teammateSuggestions.filter((person) =>
+      (person.skills || []).some((skill) => String(skill).toLowerCase().includes(query))
+    );
+  }, [teammateSuggestions, skillFilter]);
+
+  const filteredSuggestedProjects = useMemo(() => {
+    return projectSuggestions.filter((project) => {
+      if (projectDifficultyFilter !== "all" && project.difficulty !== projectDifficultyFilter) return false;
+      return true;
+    });
+  }, [projectSuggestions, projectDifficultyFilter]);
+
   return (
     <>
-      <HeroSection user={user} title="Discover" subtitle="AI-powered teammate and project suggestions based on your skills." searchValue={search} onSearchChange={onSearchChange} unreadCount={unreadCount} />
+      <HeroSection
+        user={user}
+        title="Discover"
+        subtitle="AI-powered teammate and project suggestions based on your skills."
+        searchValue={search}
+        onSearchChange={onSearchChange}
+        unreadCount={unreadCount}
+        onProfileClick={onProfileClick}
+      />
 
       {/* Suggested teammates */}
       <section className="rounded-3xl bg-white p-6 shadow-soft">
-        <h2 className="flex items-center gap-2 text-xl font-black text-slate-900">
-          <Users size={18} className="text-purple-500" /> Suggested Teammates
-        </h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="flex items-center gap-2 text-xl font-black text-slate-900">
+            <Users size={18} className="text-purple-500" /> Suggested Teammates
+          </h2>
+          <input
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 outline-none focus:border-purple-300 focus:bg-white md:w-56"
+            placeholder="Filter by skill (e.g. React)"
+            value={skillFilter}
+            onChange={(e) => setSkillFilter(e.target.value)}
+          />
+        </div>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {teammateSuggestions.map((person) => (
+          {filteredTeammates.map((person) => (
             <div key={person._id} className="animate-slide-up rounded-xl border border-slate-200 p-4 transition-all hover:border-purple-200 hover:shadow-glow">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-brand-500 text-sm font-bold text-white">
@@ -47,7 +82,7 @@ function DiscoverPage({ user, teammateSuggestions, projectSuggestions, bookmarks
               </div>
             </div>
           ))}
-          {teammateSuggestions.length === 0 && (
+          {filteredTeammates.length === 0 && (
             <p className="col-span-2 text-sm text-slate-500">No teammate suggestions yet. Add skills to your profile to get recommendations.</p>
           )}
         </div>
@@ -55,11 +90,23 @@ function DiscoverPage({ user, teammateSuggestions, projectSuggestions, bookmarks
 
       {/* Suggested projects */}
       <section className="rounded-3xl bg-white p-6 shadow-soft">
-        <h2 className="flex items-center gap-2 text-xl font-black text-slate-900">
-          <FolderKanban size={18} className="text-brand-500" /> Suggested Projects
-        </h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="flex items-center gap-2 text-xl font-black text-slate-900">
+            <FolderKanban size={18} className="text-brand-500" /> Suggested Projects
+          </h2>
+          <select
+            className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 outline-none focus:border-brand-300"
+            value={projectDifficultyFilter}
+            onChange={(e) => setProjectDifficultyFilter(e.target.value)}
+          >
+            <option value="all">All levels</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {projectSuggestions.map((project) => (
+          {filteredSuggestedProjects.map((project) => (
             <Link
               key={project._id}
               to={`/projects/${project._id}`}
@@ -78,7 +125,7 @@ function DiscoverPage({ user, teammateSuggestions, projectSuggestions, bookmarks
               )}
             </Link>
           ))}
-          {projectSuggestions.length === 0 && (
+          {filteredSuggestedProjects.length === 0 && (
             <p className="col-span-2 text-sm text-slate-500">No project suggestions yet. Add skills to your profile to see matches.</p>
           )}
         </div>

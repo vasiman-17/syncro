@@ -1,4 +1,5 @@
 import { Send, Plus } from "lucide-react";
+import { useMemo, useState } from "react";
 import HeroSection from "../components/HeroSection";
 import ProjectCard from "../components/ProjectCard";
 
@@ -24,10 +25,42 @@ function ProjectsPage({
   bookmarkedProjectIds,
   profileComplete,
   applyingTo,
+  onProfileClick,
 }) {
+  const [scopeFilter, setScopeFilter] = useState("all");
+  const [difficultyFilter, setDifficultyFilter] = useState("all");
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const projectId = String(project._id);
+      const ownerId = String(project.owner?._id || project.owner);
+      const isMine = user && ownerId === String(user.id);
+      const hasApplied = appliedProjectIds.has(projectId);
+      const isBookmarked = bookmarkedProjectIds.has(projectId);
+
+      const scopeOk =
+        scopeFilter === "all" ||
+        (scopeFilter === "my" && isMine) ||
+        (scopeFilter === "applied" && hasApplied) ||
+        (scopeFilter === "bookmarked" && isBookmarked) ||
+        (scopeFilter === "notApplied" && !hasApplied);
+
+      const difficultyOk = difficultyFilter === "all" || project.difficulty === difficultyFilter;
+
+      return scopeOk && difficultyOk;
+    });
+  }, [projects, user, appliedProjectIds, bookmarkedProjectIds, scopeFilter, difficultyFilter]);
+
   return (
     <>
-      <HeroSection user={user} title="Projects workspace" subtitle="Publish your ideas, collect applications, and manage project status." searchValue={search} onSearchChange={setSearch} />
+      <HeroSection
+        user={user}
+        title="Projects workspace"
+        subtitle="Publish your ideas, collect applications, and navigate projects faster with smart filters."
+        searchValue={search}
+        onSearchChange={setSearch}
+        onProfileClick={onProfileClick}
+      />
 
       {/* Create Project */}
       <section className="rounded-3xl bg-white p-6 shadow-soft">
@@ -84,15 +117,45 @@ function ProjectsPage({
 
       {/* Open Projects */}
       <section className="rounded-3xl bg-white p-6 shadow-soft">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-2xl font-black text-slate-900">Open Projects</h2>
           <span className="rounded-full bg-brand-50 px-3 py-1 text-sm font-semibold text-brand-700">
-            {projects.length} {projects.length === 1 ? "project" : "projects"}
+            {filteredProjects.length} {filteredProjects.length === 1 ? "project" : "projects"}
           </span>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {[
+            ["all", "All"],
+            ["notApplied", "Not Applied"],
+            ["applied", "Applied"],
+            ["bookmarked", "Bookmarked"],
+            ["my", "My Posts"],
+          ].map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setScopeFilter(key)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
+                scopeFilter === key ? "bg-brand-500 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          <select
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 outline-none focus:border-brand-400"
+            value={difficultyFilter}
+            onChange={(e) => setDifficultyFilter(e.target.value)}
+          >
+            <option value="all">All levels</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
         </div>
         {loading && <p className="mt-2 text-sm text-slate-500 animate-pulse-soft">Loading projects...</p>}
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <ProjectCard
               key={project._id}
               project={project}
@@ -113,9 +176,9 @@ function ProjectsPage({
               isApplying={applyingTo === project._id}
             />
           ))}
-          {!loading && projects.length === 0 && (
+          {!loading && filteredProjects.length === 0 && (
             <p className="col-span-2 text-sm text-slate-500">
-              {search ? `No projects match "${search}".` : "No open projects yet. Create one above!"}
+              {search ? `No projects match "${search}" with current filters.` : "No projects match the selected filters yet."}
             </p>
           )}
         </div>

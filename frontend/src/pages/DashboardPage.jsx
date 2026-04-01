@@ -17,6 +17,7 @@ function DashboardPage({
   unreadCount,
   search,
   onSearchChange,
+  onProfileClick,
 }) {
   const projectAcceptedCounts = useMemo(() => {
     const counts = {};
@@ -37,6 +38,7 @@ function DashboardPage({
         searchValue={search}
         onSearchChange={onSearchChange}
         unreadCount={unreadCount}
+        onProfileClick={onProfileClick}
       />
       <StatCards stats={stats} />
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

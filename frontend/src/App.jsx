@@ -46,6 +46,12 @@ function App() {
   const [applyingTo, setApplyingTo] = useState(null);
 
   const isAuthenticated = useMemo(() => Boolean(token), [token]);
+  const isGuestMode = useMemo(() => {
+    const role = String(user?.role || "").toLowerCase();
+    const name = String(user?.name || "").toLowerCase();
+    const email = String(user?.email || "").toLowerCase();
+    return role === "guest" || name.includes("guest") || email.includes("guest");
+  }, [user]);
 
   // Compute set of project IDs user has applied to
   const appliedProjectIds = useMemo(() => {
@@ -322,6 +328,16 @@ function App() {
     navigate("/auth");
   };
 
+  const handleProfileClick = useCallback(() => {
+    if (isGuestMode) {
+      setToken("");
+      setStatusMessage("Please login to continue.");
+      navigate("/auth");
+      return;
+    }
+    navigate("/profile");
+  }, [isGuestMode, navigate]);
+
   const updateProjectStatus = async (projectId, status) => {
     try {
       await api.patch(`/projects/${projectId}/status`, { status });
@@ -478,6 +494,7 @@ function App() {
                     unreadCount={unreadCount}
                     search={search}
                     onSearchChange={handleGlobalSearch}
+                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -506,6 +523,7 @@ function App() {
                     bookmarkedProjectIds={bookmarkedProjectIds}
                     profileComplete={profileComplete}
                     applyingTo={applyingTo}
+                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -522,6 +540,7 @@ function App() {
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}
+                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -535,6 +554,7 @@ function App() {
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}
+                    onProfileClick={handleProfileClick}
                   />
                 }
               />
@@ -549,6 +569,7 @@ function App() {
                     search={search}
                     onSearchChange={handleGlobalSearch}
                     unreadCount={unreadCount}
+                    onProfileClick={handleProfileClick}
                   />
                 }
               />

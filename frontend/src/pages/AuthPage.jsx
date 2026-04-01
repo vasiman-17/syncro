@@ -5,12 +5,12 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-800 py-12 px-4 sm:px-6 lg:px-8">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,#0f172a_0%,#1e3a8a_38%,#312e81_68%,#0b1120_100%)]"></div>
-      <div className="absolute -top-[18%] -left-[8%] -z-10 h-[58vw] w-[58vw] animate-pulse-soft rounded-full bg-sky-300/55 mix-blend-screen blur-[130px]"></div>
-      <div className="absolute -bottom-[18%] -right-[8%] -z-10 h-[55vw] w-[55vw] animate-pulse-soft rounded-full bg-violet-300/50 mix-blend-screen blur-[125px]"></div>
-      <div className="absolute top-[24%] right-[16%] -z-10 h-[38vw] w-[38vw] animate-pulse-soft rounded-full bg-cyan-200/40 mix-blend-screen blur-[110px]"></div>
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,#1e3a8a_0%,#2563eb_40%,#4f46e5_72%,#1e293b_100%)]"></div>
+      <div className="absolute -top-[18%] -left-[8%] -z-10 h-[58vw] w-[58vw] animate-pulse-soft rounded-full bg-sky-200/65 mix-blend-screen blur-[140px]"></div>
+      <div className="absolute -bottom-[18%] -right-[8%] -z-10 h-[55vw] w-[55vw] animate-pulse-soft rounded-full bg-violet-200/60 mix-blend-screen blur-[130px]"></div>
+      <div className="absolute top-[24%] right-[16%] -z-10 h-[38vw] w-[38vw] animate-pulse-soft rounded-full bg-cyan-100/55 mix-blend-screen blur-[115px]"></div>
 
       <div className="w-full max-w-[420px] animate-slide-up">
         {/* Branding header */}
@@ -24,7 +24,7 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
           <h2 className="mt-8 text-2xl font-black text-white">
             {authMode === "signup" ? "Create an account" : "Welcome back"}
           </h2>
-          <p className="mt-2 text-sm text-slate-200/90">
+          <p className="mt-2 text-sm text-white/90">
             {authMode === "signup"
               ? "Join the collaboration platform where devs build together."
               : "Sign in to your account to continue building."}
@@ -32,7 +32,7 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
         </div>
 
         {/* Main Card */}
-        <div className="rounded-[2.5rem] border border-white/60 bg-white/88 p-8 shadow-[0_24px_60px_rgba(56,189,248,0.26)] backdrop-blur-2xl">
+        <div className="rounded-[2.5rem] border border-white/80 bg-white/95 p-8 shadow-[0_24px_70px_rgba(59,130,246,0.3)] backdrop-blur-2xl">
           <button
             type="button"
             onClick={handleGoogleAuth}
@@ -113,7 +113,7 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
           </form>
         </div>
 
-        <p className="mt-8 text-center text-sm font-medium text-slate-100">
+        <p className="mt-8 text-center text-sm font-medium text-white">
           {authMode === "signup" ? "Already have an account?" : "New to Syncro?"}{" "}
           <button
             className="font-bold text-sky-300 hover:text-sky-200 hover:underline transition-colors"
