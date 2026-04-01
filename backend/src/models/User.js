@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
     github: { type: String, default: "", trim: true },
     linkedin: { type: String, default: "", trim: true },
     resumeUrl: { type: String, default: "", trim: true },
+    resumeData: { type: Buffer, select: false },
+    resumeContentType: { type: String, select: false },
     googleId: { type: String, default: "", trim: true },
     role: {
       type: String,

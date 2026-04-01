@@ -11,6 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const { OAuth2Client } = require("google-auth-library");
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID?.trim());
 
 const userFields = (user) => ({
@@ -178,23 +179,10 @@ const uploadResume = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  // Upload buffer to Cloudinary
-  const result = await new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder: "syncro/resumes",
-        resource_type: "raw",
-        public_id: `resume_${user._id}_${Date.now()}`,
-      },
-      (error, uploadResult) => {
-        if (error) reject(error);
-        else resolve(uploadResult);
-      }
-    );
-    stream.end(req.file.buffer);
-  });
-
-  user.resumeUrl = result.secure_url;
+  user.resumeData = req.file.buffer;
+  user.resumeContentType = req.file.mimetype;
+  user.resumeUrl = `/api/auth/resume/${user._id}`;
+  
   const updated = await user.save();
 
   res.status(200).json({
@@ -204,4 +192,14 @@ const uploadResume = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { signup, login, googleAuth, me, updateProfile, uploadResume };
+const getResume = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select("+resumeData +resumeContentType");
+  if (!user || !user.resumeData) {
+    return res.status(404).json({ success: false, message: "Resume not found" });
+  }
+
+  res.set("Content-Type", user.resumeContentType);
+  res.send(user.resumeData);
+});
+
+module.exports = { signup, login, googleAuth, me, updateProfile, uploadResume, getResume };
