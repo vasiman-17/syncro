@@ -66,7 +66,7 @@ function ProjectCard({
       <p className="mt-2 text-sm text-slate-600 line-clamp-2">{project.description}</p>
       <p className="mt-2 text-xs text-slate-500 flex items-center justify-between">
         <span>by {project.owner?.name || "Unknown"}</span>
-        <span className="font-semibold text-brand-600">Needs {project.requiredMembers || 1} {project.requiredMembers === 1 ? 'member' : 'members'}</span>
+        <span className="font-semibold text-brand-600">Needs {Math.max(0, (project.requiredMembers || 1) - 1)} more</span>
       </p>
       <div className="mt-3 flex flex-wrap gap-1">
         {(project.requiredSkills || []).slice(0, 5).map((skill) => (

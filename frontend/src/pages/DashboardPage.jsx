@@ -72,7 +72,7 @@ function DashboardPage({
                 <p className="font-semibold text-slate-900 flex flex-wrap items-center gap-2">
                   <span>{application.applicant?.name} applied for <span className="text-brand-600">{application.project?.title}</span></span>
                   <span className="text-[10px] bg-brand-50 text-brand-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">
-                    Accepted: {projectAcceptedCounts[application.project?._id] || 0} / {application.project?.requiredMembers || 1}
+                    Accepted: {projectAcceptedCounts[application.project?._id] || 0} / {Math.max(0, (application.project?.requiredMembers || 1) - 1)}
                   </span>
                 </p>
                 {application.applicant?.bio && <p className="text-xs text-slate-600 mt-1 max-w-lg">{application.applicant.bio}</p>}
@@ -101,8 +101,9 @@ function DashboardPage({
                 {application.status === "pending" ? (
                   <>
                     <button
-                      className="btn-transition flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+                      className="btn-transition flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
                       onClick={() => updateApplicationStatus(application._id, "accepted")}
+                      disabled={(projectAcceptedCounts[application.project?._id] || 0) >= Math.max(0, (application.project?.requiredMembers || 1) - 1)}
                     >
                       <Check size={14} /> Accept
                     </button>

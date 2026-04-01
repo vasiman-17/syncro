@@ -22,8 +22,8 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   }, [handleGoogleAuth]);
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-white">
+      <div className="grid min-h-screen lg:h-screen grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
         <section className="relative hidden overflow-hidden lg:flex lg:flex-col lg:justify-between bg-[linear-gradient(160deg,#5B4FE9_0%,#4A63F6_45%,#3D57E8_100%)] p-14 text-white">
           <div className="pointer-events-none absolute -right-20 -top-16 h-72 w-72 rounded-full bg-white/20 blur-3xl"></div>
           <div className="pointer-events-none absolute -bottom-16 -left-16 h-72 w-72 rounded-full bg-indigo-900/30 blur-3xl"></div>
@@ -67,7 +67,7 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
           <p className="relative text-sm text-white/80">Trusted by builders worldwide</p>
         </section>
 
-        <section className="flex items-center justify-center px-5 py-10 sm:px-8">
+        <section className="flex items-center justify-center px-5 py-10 sm:px-8 lg:overflow-y-auto h-full">
           <div className="w-full max-w-md">
             <h2 className="text-[22px] font-extrabold text-slate-900">{authMode === "signup" ? "Create your account" : "Welcome back"}</h2>
             <p className="mt-1 text-[13px] text-slate-500">
