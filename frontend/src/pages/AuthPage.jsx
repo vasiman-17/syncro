@@ -5,26 +5,26 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950"></div>
-      <div className="absolute -top-[20%] -left-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-brand-600 opacity-20 mix-blend-screen blur-[120px]"></div>
-      <div className="absolute -bottom-[20%] -right-[10%] -z-10 h-[60vw] w-[60vw] animate-pulse-soft rounded-full bg-purple-600 opacity-20 mix-blend-screen blur-[120px]"></div>
-      <div className="absolute top-[20%] right-[10%] -z-10 h-[40vw] w-[40vw] animate-pulse-soft rounded-full bg-brand-400 opacity-10 mix-blend-screen blur-[100px]"></div>
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,#0f172a_0%,#1e3a8a_38%,#312e81_68%,#0b1120_100%)]"></div>
+      <div className="absolute -top-[18%] -left-[8%] -z-10 h-[58vw] w-[58vw] animate-pulse-soft rounded-full bg-sky-300/55 mix-blend-screen blur-[130px]"></div>
+      <div className="absolute -bottom-[18%] -right-[8%] -z-10 h-[55vw] w-[55vw] animate-pulse-soft rounded-full bg-violet-300/50 mix-blend-screen blur-[125px]"></div>
+      <div className="absolute top-[24%] right-[16%] -z-10 h-[38vw] w-[38vw] animate-pulse-soft rounded-full bg-cyan-200/40 mix-blend-screen blur-[110px]"></div>
 
       <div className="w-full max-w-[420px] animate-slide-up">
         {/* Branding header */}
         <div className="mb-8 flex flex-col items-center justify-center text-center">
           <div className="flex items-center justify-center gap-3">
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 text-3xl font-black text-white shadow-xl shadow-brand-500/30">
+            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 via-brand-500 to-violet-500 text-3xl font-black text-white shadow-xl shadow-brand-400/50">
               S
             </span>
-            <span className="text-4xl font-black tracking-tight text-white/95">Syncro</span>
+            <span className="text-4xl font-black tracking-tight text-white">Syncro</span>
           </div>
           <h2 className="mt-8 text-2xl font-black text-white">
             {authMode === "signup" ? "Create an account" : "Welcome back"}
           </h2>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-slate-200/90">
             {authMode === "signup"
               ? "Join the collaboration platform where devs build together."
               : "Sign in to your account to continue building."}
@@ -32,11 +32,11 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
         </div>
 
         {/* Main Card */}
-        <div className="rounded-[2.5rem] border border-white/50 bg-white/70 p-8 shadow-2xl shadow-slate-200/50 backdrop-blur-xl">
+        <div className="rounded-[2.5rem] border border-white/60 bg-white/88 p-8 shadow-[0_24px_60px_rgba(56,189,248,0.26)] backdrop-blur-2xl">
           <button
             type="button"
             onClick={handleGoogleAuth}
-            className="btn-transition flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 font-bold text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
+            className="btn-transition flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-sky-100 bg-white px-4 py-3.5 font-bold text-slate-700 shadow-sm hover:border-brand-200 hover:bg-sky-50 hover:text-brand-700"
           >
             <svg width="20" height="20" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -47,11 +47,8 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
             Continue with Google
           </button>
 
-          <div className="relative my-6 flex w-full items-center justify-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200"></div>
-            </div>
-            <div className="relative bg-white/0 px-4 text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <div className="my-6 flex w-full items-center justify-center">
+            <div className="rounded-full bg-sky-50 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
               Or continue with email
             </div>
           </div>
@@ -59,9 +56,9 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
           <form className="space-y-4" onSubmit={handleAuth}>
             {authMode === "signup" && (
               <div>
-                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Full Name</label>
+                <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600">Full Name</label>
                 <input
-                  className="w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
+                  className="w-full rounded-2xl border-2 border-sky-100 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-sky-200 focus:border-brand-400 focus:shadow-glow"
                   placeholder="Vaibhav Vasistha"
                   value={authForm.name}
                   onChange={(e) => setAuthForm({ ...authForm, name: e.target.value })}
@@ -69,9 +66,9 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
               </div>
             )}
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Email</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600">Email</label>
               <input
-                className="w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
+                className="w-full rounded-2xl border-2 border-sky-100 bg-white px-4 py-3.5 text-sm font-medium outline-none transition-all hover:border-sky-200 focus:border-brand-400 focus:shadow-glow"
                 placeholder="you@example.com"
                 type="email"
                 value={authForm.email}
@@ -79,10 +76,10 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-700">Password</label>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600">Password</label>
               <div className="relative">
                 <input
-                  className="w-full rounded-2xl border-2 border-slate-200 bg-white py-3.5 pl-4 pr-12 text-sm font-medium outline-none transition-all hover:border-slate-300 focus:border-brand-500 focus:shadow-glow"
+                  className="w-full rounded-2xl border-2 border-sky-100 bg-white py-3.5 pl-4 pr-12 text-sm font-medium outline-none transition-all hover:border-sky-200 focus:border-brand-400 focus:shadow-glow"
                   placeholder="Min 6 characters"
                   type={showPassword ? "text" : "password"}
                   value={authForm.password}
@@ -99,7 +96,7 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
             </div>
             <div className="pt-2">
               <button
-                className="btn-transition flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-500 px-4 py-4 font-bold text-white shadow-lg shadow-brand-500/30 hover:bg-brand-600 hover:shadow-brand-500/40 disabled:opacity-60 disabled:hover:transform-none"
+                className="btn-transition flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 via-brand-500 to-violet-500 px-4 py-4 font-bold text-white shadow-lg shadow-brand-400/40 hover:from-sky-600 hover:via-brand-600 hover:to-violet-600 disabled:opacity-60 disabled:hover:transform-none"
                 type="submit"
                 disabled={isSubmittingAuth}
               >
@@ -116,10 +113,10 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
           </form>
         </div>
 
-        <p className="mt-8 text-center text-sm font-medium text-slate-400">
+        <p className="mt-8 text-center text-sm font-medium text-slate-100">
           {authMode === "signup" ? "Already have an account?" : "New to Syncro?"}{" "}
           <button
-            className="font-bold text-brand-400 hover:text-brand-300 hover:underline transition-colors"
+            className="font-bold text-sky-300 hover:text-sky-200 hover:underline transition-colors"
             onClick={() => setAuthMode(authMode === "signup" ? "login" : "signup")}
           >
             {authMode === "signup" ? "Sign in instead" : "Create an account"}
