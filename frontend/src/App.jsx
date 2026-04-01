@@ -244,7 +244,7 @@ function App() {
   };
 
   const handleGoogleAuth = useCallback(async () => {
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim();
     if (!clientId) {
       setStatusMessage("Google Sign-In is not configured yet. Please use email/password.");
       return;
@@ -276,7 +276,23 @@ function App() {
           }
         },
       });
-      google.accounts.id.prompt();
+      google.accounts.id.prompt((notification) => {
+        if (notification?.isNotDisplayed?.()) {
+          const reason = notification.getNotDisplayedReason?.();
+          if (reason === "invalid_client") {
+            setStatusMessage(
+              "Google OAuth invalid_client: use a valid Web Client ID and add this origin in Google Cloud OAuth settings."
+            );
+            return;
+          }
+          setStatusMessage(`Google Sign-In unavailable (${reason || "unknown reason"}).`);
+        } else if (notification?.isSkippedMoment?.()) {
+          const reason = notification.getSkippedReason?.();
+          if (reason && reason !== "auto_cancel") {
+            setStatusMessage(`Google Sign-In skipped (${reason}). Try again.`);
+          }
+        }
+      });
     } catch (error) {
       setStatusMessage("Google Sign-In failed. Please try email/password.");
     }

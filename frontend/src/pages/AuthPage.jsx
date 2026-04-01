@@ -7,37 +7,38 @@ function AuthPage({ authMode, setAuthMode, authForm, setAuthForm, isSubmittingAu
   return (
     <div className="min-h-screen bg-white">
       <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.2fr_1fr]">
-        <section className="hidden lg:flex lg:flex-col lg:justify-between bg-[#5B4FE9] p-12 text-white">
+        <section className="hidden lg:flex lg:flex-col lg:justify-between bg-[#5B4FE9] p-14 text-white">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-lg font-black text-[#5B4FE9]">S</span>
-              <span className="text-3xl font-extrabold tracking-tight">Syncro</span>
+            <div className="flex items-center gap-4">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-xl font-black text-[#5B4FE9]">S</span>
+              <span className="text-[40px] font-extrabold tracking-tight leading-none">Syncro</span>
             </div>
-            <h1 className="mt-14 max-w-xl text-[26px] font-extrabold leading-tight">
+            <h1 className="mt-16 max-w-xl text-[32px] font-extrabold leading-tight">
               Build great products with the right people.
             </h1>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/70">
-              Connect with developers, designers, and founders who are building something real.
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85">
+              Syncro helps you find teammates, launch projects faster, and manage applications in one clean workspace.
             </p>
-            <div className="mt-8 grid max-w-md grid-cols-2 gap-3">
-              <div className="rounded-xl bg-white/12 p-4">
-                <p className="text-2xl font-extrabold">1.2k</p>
-                <p className="mt-1 text-xs text-white/70">Active builders</p>
+            <div className="mt-10 grid max-w-lg gap-3">
+              <div className="rounded-xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95">
+                Post projects and define exactly who you need.
               </div>
-              <div className="rounded-xl bg-white/12 p-4">
-                <p className="text-2xl font-extrabold">340+</p>
-                <p className="mt-1 text-xs text-white/70">Open projects</p>
+              <div className="rounded-xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95">
+                Discover relevant developers with smart filters.
+              </div>
+              <div className="rounded-xl bg-white/14 px-4 py-3 text-sm font-semibold text-white/95">
+                Track applications and decisions in real time.
               </div>
             </div>
-            <div className="mt-7 flex max-w-xl flex-wrap gap-2">
+            <div className="mt-8 flex max-w-xl flex-wrap gap-2">
               {["React", "Node.js", "Design", "AI/ML", "Founders"].map((pill) => (
-                <span key={pill} className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+                <span key={pill} className="rounded-full bg-white/18 px-3 py-1 text-xs font-semibold text-white">
                   {pill}
                 </span>
               ))}
             </div>
           </div>
-          <p className="text-xs text-white/70">Trusted by builders worldwide</p>
+          <p className="text-sm text-white/80">Trusted by builders worldwide</p>
         </section>
 
         <section className="flex items-center justify-center px-5 py-10 sm:px-8">

@@ -11,7 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID?.trim());
 
 const userFields = (user) => ({
   id: user._id,
@@ -100,7 +100,7 @@ const googleAuth = asyncHandler(async (req, res) => {
   try {
     const ticket = await googleClient.verifyIdToken({
       idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: process.env.GOOGLE_CLIENT_ID?.trim(),
     });
     payload = ticket.getPayload();
   } catch (err) {
