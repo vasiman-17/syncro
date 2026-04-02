@@ -9,6 +9,7 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID?.trim());
 const userFields = (user) => ({
   id: user._id,
   name: user.name,
+  username: user.username,
   email: user.email,
   avatar: user.avatar,
   bio: user.bio,
@@ -21,24 +22,43 @@ const userFields = (user) => ({
 });
 
 const signup = asyncHandler(async (req, res) => {
-  const { name, email, password, bio, skills, github, linkedin, role } = req.body;
+  const { name, email, password, bio, skills, github, linkedin, role, username } = req.body;
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("Name, email and password are required");
   }
 
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
+  const existingEmail = await User.findOne({ email });
+  if (existingEmail) {
     res.status(409);
     throw new Error("Email already exists");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
   const adminEmail = "vaibhav.vasistha06@gmail.com";
   const userRole = (email === adminEmail && ["admin", "owner"].includes(role)) ? role : "developer";
 
+  // Username validation/generation
+  let finalUsername = username?.trim().toLowerCase();
+  if (finalUsername) {
+    const existing = await User.findOne({ username: finalUsername });
+    if (existing) {
+      res.status(400);
+      throw new Error("Username already taken");
+    }
+  } else {
+    const base = email.split("@")[0].replace(/[^a-z0-9_]/g, "_").toLowerCase();
+    finalUsername = base;
+    let count = 0;
+    while (await User.findOne({ username: finalUsername })) {
+      count++;
+      finalUsername = `${base}${count}`;
+    }
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({
     name,
+    username: finalUsername,
     email,
     password: hashedPassword,
     bio: bio || "",
@@ -125,10 +145,31 @@ const googleAuth = asyncHandler(async (req, res) => {
       user.role = "developer";
       modified = true;
     }
+    // Assign generic username if missing
+    if (!user.username) {
+      const base = email.split("@")[0].replace(/[^a-z0-9_]/g, "_").toLowerCase();
+      let finalUsername = base;
+      let count = 0;
+      while (await User.findOne({ username: finalUsername })) {
+        count++;
+        finalUsername = `${base}${count}`;
+      }
+      user.username = finalUsername;
+      modified = true;
+    }
     if (modified) await user.save();
   } else {
+    const base = email.split("@")[0].replace(/[^a-z0-9_]/g, "_").toLowerCase();
+    let finalUsername = base;
+    let count = 0;
+    while (await User.findOne({ username: finalUsername })) {
+      count++;
+      finalUsername = `${base}${count}`;
+    }
+
     user = await User.create({
       name,
+      username: finalUsername,
       email,
       googleId,
       avatar: picture || "",
@@ -152,7 +193,7 @@ const me = asyncHandler(async (req, res) => {
 });
 
 const updateProfile = asyncHandler(async (req, res) => {
-  const { name, bio, skills, github, linkedin, role } = req.body;
+  const { name, bio, skills, github, linkedin, role, username } = req.body;
   const user = await User.findById(req.user._id);
 
   if (!user) {
@@ -161,6 +202,21 @@ const updateProfile = asyncHandler(async (req, res) => {
   }
 
   const adminEmail = "vaibhav.vasistha06@gmail.com";
+
+  // Username update validation
+  if (username && username.trim().toLowerCase() !== user.username) {
+    const freshHandle = username.trim().toLowerCase();
+    if (!/^[a-z0-9_]+$/.test(freshHandle)) {
+      res.status(400);
+      throw new Error("Username can only contain letters, numbers and underscores.");
+    }
+    const taken = await User.findOne({ username: freshHandle });
+    if (taken) {
+      res.status(400);
+      throw new Error("This username is already taken. Try another one!");
+    }
+    user.username = freshHandle;
+  }
 
   user.name = name?.trim() || user.name;
   user.bio = typeof bio === "string" ? bio : user.bio;

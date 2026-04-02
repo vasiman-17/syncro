@@ -14,8 +14,11 @@ function TeamCard({ user }) {
             (user?.name || "A").slice(0, 1).toUpperCase()
           )}
         </div>
-        <p className="text-center font-semibold">{user?.name || "Anna Miller"}</p>
-        <p className="text-center text-sm text-white/90">{roleLabel}</p>
+        <p className="text-center font-bold tracking-tight">{user?.name || "Anonymous"}</p>
+        <p className="text-center text-[10px] uppercase font-black tracking-widest text-white/60 -mt-1 mb-1">
+          @{user?.username || "syncro_dev"}
+        </p>
+        <p className="text-center text-xs font-medium text-white/90">{roleLabel}</p>
         <p className="mt-1 text-center text-xs text-white/80">
           {skillsCount > 0 ? `${skillsCount} listed skills` : "Add skills to improve matching"}
         </p>

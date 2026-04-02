@@ -102,9 +102,10 @@ function App() {
     return Array.from(peopleMap.values())
       .filter((person) => {
         const name = String(person?.name || "").toLowerCase();
+        const username = String(person?.username || "").toLowerCase();
         const email = String(person?.email || "").toLowerCase();
         const skills = Array.isArray(person?.skills) ? person.skills.join(" ").toLowerCase() : "";
-        return name.includes(query) || email.includes(query) || skills.includes(query);
+        return name.includes(query) || username.includes(query) || email.includes(query) || skills.includes(query);
       })
       .slice(0, 8);
   }, [search, teammateSuggestions, projects, applications]);
@@ -167,6 +168,7 @@ function App() {
       setUser(data.user);
       setProfileForm({
         name: data.user?.name || "",
+        username: data.user?.username || "",
         bio: data.user?.bio || "",
         skills: (data.user?.skills || []).join(", "),
         github: data.user?.github || "",
@@ -404,6 +406,7 @@ function App() {
       setIsSavingProfile(true);
       const payload = {
         name: profileForm.name,
+        username: profileForm.username,
         bio: profileForm.bio,
         skills: profileForm.skills.split(",").map((skill) => skill.trim()).filter(Boolean),
         github: profileForm.github,

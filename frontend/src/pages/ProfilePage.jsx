@@ -8,6 +8,7 @@ function ProfilePage({ user, profileForm, setProfileForm, updateProfile, isSavin
 
   const requiredFields = [
     { label: "Name", filled: Boolean(user?.name?.trim()) },
+    { label: "Handle", filled: Boolean(user?.username?.trim()) },
     { label: "GitHub", filled: Boolean(user?.github?.trim()) },
     { label: "LinkedIn", filled: Boolean(user?.linkedin?.trim()) },
     { label: "Resume", filled: Boolean(user?.resumeUrl?.trim()) },
@@ -71,16 +72,32 @@ function ProfilePage({ user, profileForm, setProfileForm, updateProfile, isSavin
       <section className="rounded-3xl bg-white p-6 shadow-soft">
         <h2 className="text-xl font-black text-slate-900">Profile</h2>
         <form className="mt-4 space-y-4" onSubmit={updateProfile}>
-          <div>
-            <label className="mb-1 flex items-center gap-1 text-sm font-semibold text-slate-700">
-              Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
-              placeholder="Your full name"
-              value={profileForm.name}
-              onChange={(e) => setProfileForm((prev) => ({ ...prev, name: e.target.value }))}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="mb-1 flex items-center gap-1 text-sm font-semibold text-slate-700">
+                Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
+                placeholder="Your full name"
+                value={profileForm.name}
+                onChange={(e) => setProfileForm((prev) => ({ ...prev, name: e.target.value }))}
+              />
+            </div>
+            <div>
+              <label className="mb-1 flex items-center gap-1 text-sm font-semibold text-slate-700">
+                Username (@handle) <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">@</span>
+                <input
+                  className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 py-3 pl-8 pr-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
+                  placeholder="your_handle"
+                  value={profileForm.username}
+                  onChange={(e) => setProfileForm((prev) => ({ ...prev, username: e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "_") }))}
+                />
+              </div>
+            </div>
           </div>
 
           <div>
