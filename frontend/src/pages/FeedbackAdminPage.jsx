@@ -21,8 +21,8 @@ function FeedbackAdminPage({ user }) {
     }
   };
 
-  if (!user || (user.role !== "admin" && user.role !== "owner")) {
-    return <div className="p-6">Access Denied. Only the creator can view this.</div>;
+  if (!user || user.email !== "vaibhav.vasistha06@gmail.com") {
+    return <div className="p-6">Access Denied. Only the authorized creator can view this.</div>;
   }
 
   return (

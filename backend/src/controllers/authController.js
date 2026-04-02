@@ -34,6 +34,9 @@ const signup = asyncHandler(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+  const adminEmail = "vaibhav.vasistha06@gmail.com";
+  const userRole = (email === adminEmail && ["admin", "owner"].includes(role)) ? role : "developer";
+
   const user = await User.create({
     name,
     email,
@@ -42,7 +45,7 @@ const signup = asyncHandler(async (req, res) => {
     skills: Array.isArray(skills) ? skills : [],
     github: github || "",
     linkedin: linkedin || "",
-    role: role || "developer",
+    role: userRole,
   });
 
   res.status(201).json({
@@ -103,6 +106,7 @@ const googleAuth = asyncHandler(async (req, res) => {
   }
 
   const { sub: googleId, email, name, picture } = payload;
+  const adminEmail = "vaibhav.vasistha06@gmail.com";
 
   let user = await User.findOne({ $or: [{ googleId }, { email }] });
 
@@ -116,6 +120,11 @@ const googleAuth = asyncHandler(async (req, res) => {
       user.avatar = picture;
       modified = true;
     }
+    // Also enforce role if somehow changed
+    if (user.email !== adminEmail && user.role !== "developer") {
+      user.role = "developer";
+      modified = true;
+    }
     if (modified) await user.save();
   } else {
     user = await User.create({
@@ -127,7 +136,7 @@ const googleAuth = asyncHandler(async (req, res) => {
       skills: [],
       github: "",
       linkedin: "",
-      role: "developer",
+      role: email === adminEmail ? "admin" : "developer",
     });
   }
 
@@ -151,13 +160,20 @@ const updateProfile = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
+  const adminEmail = "vaibhav.vasistha06@gmail.com";
+
   user.name = name?.trim() || user.name;
   user.bio = typeof bio === "string" ? bio : user.bio;
   user.skills = Array.isArray(skills) ? skills : user.skills;
   user.github = typeof github === "string" ? github : user.github;
   user.linkedin = typeof linkedin === "string" ? linkedin : user.linkedin;
-  if (["developer", "owner", "admin"].includes(role)) {
+
+  // Only the creator can change roles
+  if (user.email === adminEmail && ["developer", "owner", "admin"].includes(role)) {
     user.role = role;
+  } else if (user.email !== adminEmail && user.role !== "developer") {
+    // Force demotion to developer if somehow role is high for non-admin
+    user.role = "developer";
   }
 
   const updated = await user.save();

@@ -128,18 +128,20 @@ function ProfilePage({ user, profileForm, setProfileForm, updateProfile, isSavin
             />
           </div>
 
-          <div>
-            <label className="mb-1 block text-sm font-semibold text-slate-700">Role</label>
-            <select
-              className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
-              value={profileForm.role}
-              onChange={(e) => setProfileForm((prev) => ({ ...prev, role: e.target.value }))}
-            >
-              <option value="developer">Developer</option>
-              <option value="owner">Owner</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
+          {user?.email === "vaibhav.vasistha06@gmail.com" && (
+            <div>
+              <label className="mb-1 block text-sm font-semibold text-slate-700">Role</label>
+              <select
+                className="w-full rounded-xl border-2 border-slate-200 bg-slate-50 p-3 text-sm outline-none transition-colors focus:border-brand-500 focus:bg-white"
+                value={profileForm.role}
+                onChange={(e) => setProfileForm((prev) => ({ ...prev, role: e.target.value }))}
+              >
+                <option value="developer">Developer</option>
+                <option value="owner">Owner</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          )}
 
           <button
             className="btn-transition rounded-xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 hover:bg-brand-600 disabled:opacity-60"

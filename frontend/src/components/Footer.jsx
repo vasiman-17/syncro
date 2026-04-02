@@ -25,7 +25,7 @@ function Footer({ user }) {
     }
   };
 
-  const isAdmin = user && (user.role === "admin" || user.role === "owner");
+  const isAdmin = user && user.email === "vaibhav.vasistha06@gmail.com";
 
   return (
     <footer className="mt-8 rounded-3xl bg-white p-6 shadow-soft text-center">

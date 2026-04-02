@@ -15,9 +15,10 @@ const submitFeedback = asyncHandler(async (req, res) => {
 });
 
 const getFeedback = asyncHandler(async (req, res) => {
-  if (req.user.role !== "admin" && req.user.role !== "owner") {
+  const adminEmail = "vaibhav.vasistha06@gmail.com";
+  if (req.user.email !== adminEmail) {
     res.status(403);
-    throw new Error("Only admins or owners can view feedback");
+    throw new Error("Access Denied. Only the authorized creator can view feedback.");
   }
   const feedbacks = await Feedback.find().populate("user", "name email").sort({ createdAt: -1 });
   res.status(200).json({ success: true, feedbacks });
