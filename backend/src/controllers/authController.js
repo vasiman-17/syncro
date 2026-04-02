@@ -10,6 +10,7 @@ const userFields = (user) => ({
   id: user._id,
   name: user.name,
   email: user.email,
+  avatar: user.avatar,
   bio: user.bio,
   skills: user.skills,
   github: user.github,
@@ -106,15 +107,22 @@ const googleAuth = asyncHandler(async (req, res) => {
   let user = await User.findOne({ $or: [{ googleId }, { email }] });
 
   if (user) {
+    let modified = false;
     if (!user.googleId) {
       user.googleId = googleId;
-      await user.save();
+      modified = true;
     }
+    if (picture && user.avatar !== picture) {
+      user.avatar = picture;
+      modified = true;
+    }
+    if (modified) await user.save();
   } else {
     user = await User.create({
       name,
       email,
       googleId,
+      avatar: picture || "",
       bio: "",
       skills: [],
       github: "",

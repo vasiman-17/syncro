@@ -8,6 +8,7 @@ const applicationRoutes = require("./routes/applicationRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const bookmarkRoutes = require("./routes/bookmarkRoutes");
 const matchingRoutes = require("./routes/matchingRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/matching", matchingRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

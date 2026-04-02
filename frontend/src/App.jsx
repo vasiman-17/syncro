@@ -13,6 +13,8 @@ import ProfilePage from "./pages/ProfilePage";
 import ProjectDetailsPage from "./pages/ProjectDetailsPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import DiscoverPage from "./pages/DiscoverPage";
+import Footer from "./components/Footer";
+import FeedbackAdminPage from "./pages/FeedbackAdminPage";
 
 const emptyAuth = { name: "", email: "", password: "" };
 const emptyProject = { title: "", description: "", requiredSkills: "", requiredMembers: 1, difficulty: "beginner" };
@@ -595,8 +597,10 @@ function App() {
                   />
                 }
               />
+              <Route path="/admin/feedback" element={<FeedbackAdminPage user={user} />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Routes>
+            <Footer user={user} />
           </main>
 
           <section className="space-y-5 lg:col-span-3">
