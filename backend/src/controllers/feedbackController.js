@@ -29,4 +29,21 @@ const getFeedback = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, feedbacks });
 });
 
-module.exports = { submitFeedback, getFeedback };
+const deleteFeedback = asyncHandler(async (req, res) => {
+  const adminEmail = "vaibhav.vasistha06@gmail.com";
+  if (req.user.email !== adminEmail) {
+    res.status(403);
+    throw new Error("Access Denied.");
+  }
+
+  const feedback = await Feedback.findById(req.params.id);
+  if (!feedback) {
+    res.status(404);
+    throw new Error("Feedback not found.");
+  }
+
+  await feedback.deleteOne();
+  res.status(200).json({ success: true, message: "Feedback removed." });
+});
+
+module.exports = { submitFeedback, getFeedback, deleteFeedback };
