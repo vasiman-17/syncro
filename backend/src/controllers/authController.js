@@ -189,7 +189,26 @@ const googleAuth = asyncHandler(async (req, res) => {
 });
 
 const me = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, user: userFields(req.user) });
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  // Handle users missing a username (migration on the fly)
+  if (!user.username) {
+    const base = user.email.split("@")[0].replace(/[^a-z0-9_]/g, "_").toLowerCase();
+    let finalUsername = base;
+    let count = 0;
+    while (await User.findOne({ username: finalUsername })) {
+      count++;
+      finalUsername = `${base}${count}`;
+    }
+    user.username = finalUsername;
+    await user.save();
+  }
+
+  res.status(200).json({ success: true, user: userFields(user) });
 });
 
 const updateProfile = asyncHandler(async (req, res) => {
