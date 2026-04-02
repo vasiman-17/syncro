@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MessageSquare, Send, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 
 function Footer({ user }) {
@@ -80,9 +81,9 @@ function Footer({ user }) {
         )}
         
         {isAdmin && (
-          <a href="/admin/feedback" className="text-xs text-slate-500 hover:underline mt-2">
+          <Link to="/admin/feedback" className="text-xs text-slate-500 hover:underline mt-2">
             View Received Feedback (Admin Only)
-          </a>
+          </Link>
         )}
       </div>
     </footer>

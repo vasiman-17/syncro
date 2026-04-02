@@ -6,16 +6,19 @@ function FeedbackAdminPage({ user }) {
   const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState("");
+
   useEffect(() => {
     fetchFeedback();
   }, []);
 
   const fetchFeedback = async () => {
     try {
+      setError("");
       const { data } = await api.get("/feedback");
       setFeedbacks(data.feedbacks || []);
-    } catch {
-      // ignore
+    } catch (err) {
+      setError(err?.response?.data?.message || "Failed to load feedback.");
     } finally {
       setLoading(false);
     }
@@ -30,19 +33,24 @@ function FeedbackAdminPage({ user }) {
       <HeroSection user={user} title="User Feedback" subtitle="Read what users are saying about your platform." />
       <section className="rounded-3xl bg-white p-6 shadow-soft">
         <h2 className="text-xl font-black text-slate-900 mb-4">Received Feedback</h2>
+        {error && <p className="text-sm font-semibold text-red-500 mb-4 flex items-center gap-2">{error}</p>}
         {loading ? (
-          <p className="text-sm text-slate-500">Loading...</p>
+          <div className="flex justify-center p-4">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
+          </div>
         ) : feedbacks.length === 0 ? (
           <p className="text-sm text-slate-500">No feedback received yet.</p>
         ) : (
           <div className="space-y-3">
             {feedbacks.map((fb) => (
-              <div key={fb._id} className="rounded-2xl border border-slate-200 p-4">
-                <p className="text-xs text-slate-500 mb-1">
-                  From: <span className="font-semibold text-slate-700">{fb.user?.name || "Unknown"}</span> ({fb.user?.email || "No email"})
-                  <span className="ml-2">— {new Date(fb.createdAt).toLocaleDateString()}</span>
-                </p>
-                <p className="text-sm text-slate-800">{fb.message}</p>
+              <div key={fb._id} className="rounded-2xl border border-slate-200 p-4 animate-fade-in hover:border-brand-200 transition-all">
+                <div className="flex justify-between items-start mb-2 text-xs text-slate-500">
+                  <p>
+                    From: <span className="font-semibold text-slate-700">{fb.user?.name || "Unknown"}</span> ({fb.user?.email || "No email"})
+                  </p>
+                  <span>{new Date(fb.createdAt).toLocaleString()}</span>
+                </div>
+                <p className="text-sm text-slate-800 leading-relaxed whitespace-pre-wrap">{fb.message}</p>
               </div>
             ))}
           </div>
