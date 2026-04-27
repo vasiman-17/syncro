@@ -1,4 +1,4 @@
-# Syncro 🚀
+# Syncro 
 
 Syncro is a full-stack web application for discovering teammates, collaborating on projects, and managing applications in one place.
 
@@ -8,7 +8,7 @@ Syncro is a full-stack web application for discovering teammates, collaborating 
 - Project & application management dashboard  
 - Private feedback system (admin-only)  
 
-## 🛠️ Tech Stack
+## Tech Stack
 React (Vite), Tailwind CSS, Node.js, Express.js, MongoDB  
 
 ## 🌐 Live
